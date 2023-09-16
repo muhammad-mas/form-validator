@@ -1,53 +1,71 @@
-import { useEffect, useRef, useState } from "react";
+import useInput from "../hooks/use-input";
 
 const SimpleInput = (props) => {
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+  // const [enteredName, setEnteredName] = useState("");
+  // const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+  // const [enteredEmail, setEnteredEmail] = useState("");
+  // const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
   // const nameInputRef = useRef("");
+  const checkNameValidity = (name) => {
+    return name.trim() != "";
+  };
+  const {
+    enteredValue: enteredName,
+    inputChangeHandler: nameInputChangeHandler,
+    inputBlurHandler: nameInputBlurHandler,
+    hasError: nameInputIsInvalid,
+    reset: nameReset,
+  } = useInput(checkNameValidity);
 
-  const enteredNameIsValid = enteredName.trim() != "";
-  const enteredEmailIsValid =
-    enteredEmail.trim() != "" && enteredEmail.trim().includes("@");
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
-  const enteredEmailInValid = enteredEmailTouched && !enteredEmailIsValid;
+  const {
+    enteredValue: enteredEmail,
+    inputChangeHandler: emailInputChangeHandler,
+    inputBlurHandler: emailInputBlurHandler,
+    hasError: enteredEmailInValid,
+    reset: emailReset,
+  } = useInput((value) => {
+    return value.trim() != "" && value.trim().includes("@");
+  });
+
+  // const enteredNameIsValid = enteredName.trim() != "";
+  // const enteredEmailIsValid =
+
+  // const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+  // const enteredEmailInValid = enteredEmailTouched && !enteredEmailIsValid;
   let formIsValid = false;
-  if (enteredNameIsValid && enteredEmailIsValid) {
+  if (!nameInputIsInvalid && !enteredEmailInValid) {
     formIsValid = true;
   }
-  const nameInputChangeHandler = (event) => {
-    setEnteredName(event.target.value);
-    if (event.target.value.trim() != "") {
-    }
-  };
+  // const nameInputChangeHandler = (event) => {
+  //   setEnteredName(event.target.value);
+  //   if (event.target.value.trim() != "") {
+  //   }
+  // };
 
-  const nameInputBlurHandler = (event) => {
-    setEnteredNameTouched(true);
-    if (enteredName.trim() === "") {
-      return;
-    }
-  };
-  const emailInputChangeHandler = (event) => {
-    setEnteredEmail(event.target.value);
-    // if (event.target.value.trim() != ""  ) {
-    // }
-  };
+  // const nameInputBlurHandler = (event) => {
+  //   setEnteredNameTouched(true);
+  //   if (enteredName.trim() === "") {
+  //     return;
+  //   }
+  // };
+  // const emailInputChangeHandler = (event) => {
+  //   setEnteredEmail(event.target.value);
+  //   // if (event.target.value.trim() != ""  ) {
+  //   // }
+  // };
 
-  const emailInputBlurHandler = (event) => {
-    setEnteredEmailTouched(true);
-  };
+  // const emailInputBlurHandler = (event) => {
+  //   setEnteredEmailTouched(true);
+  // };
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    setEnteredNameTouched(true);
+    // setEnteredNameTouched(true);
 
     console.log(enteredName);
     console.log(enteredEmail);
 
-    setEnteredName("");
-    setEnteredEmail("");
-    setEnteredEmailTouched(false);
-    setEnteredNameTouched(false);
+    nameReset();
+    emailReset();
     // nameInputRef.current.value=''; not an ideal way to manipulate the dom directly
     // console.log(nameInputRef.current.value);
   };

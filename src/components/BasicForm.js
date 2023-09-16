@@ -4,6 +4,7 @@ const BasicForm = (props) => {
   const {
     enteredValue: firstName,
     hasError: firstNameInValid,
+    isValid: isFirstNameValid,
     inputBlurHandler: firstNameBlur,
     inputChangeHandler: firstNameChange,
     reset: firstNameReset,
@@ -11,6 +12,7 @@ const BasicForm = (props) => {
 
   const {
     enteredValue: lastName,
+    isValid: islastNameValid,
     hasError: lastNameInValid,
     inputBlurHandler: lastNameBlur,
     inputChangeHandler: lastNameChange,
@@ -18,13 +20,14 @@ const BasicForm = (props) => {
   } = useInput((value) => value.trim() != "");
   const {
     enteredValue: email,
+    isValid: isEmailValid,
     hasError: emailInValid,
     inputBlurHandler: emailBlur,
     inputChangeHandler: emailChange,
     reset: emailReset,
   } = useInput((value) => value.trim() != "" && value.includes("@"));
   let isFormValid = false;
-  if (!firstNameInValid && !lastNameInValid && !emailInValid) {
+  if (isFirstNameValid && islastNameValid && isEmailValid) {
     isFormValid = true;
   }
   const submitHandler = (event) => {

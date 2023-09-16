@@ -28,6 +28,7 @@ const useInput = (validityFunction) => {
   const [state, dispatch] = useReducer(inputStateReducer, initialInputState);
   const valueIsValid = validityFunction(state.value);
   const hasError = !valueIsValid && state.isTouched;
+
   const inputChangeHandler = (event) => {
     dispatch({
       type: "INPUT",
@@ -47,6 +48,7 @@ const useInput = (validityFunction) => {
   };
   return {
     enteredValue: state.value,
+    isValid: valueIsValid,
     inputChangeHandler,
     inputBlurHandler,
     hasError,
